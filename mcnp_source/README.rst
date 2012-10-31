@@ -4,7 +4,11 @@ Custom MCNP source routine information
 
 The R2S-ACT workflow uses a custom photon sampling source routine in MCNP in order to sample particles on the mesh.
 
+<<<<<<< HEAD
 This folder contains a modified version(s) of the ``source.F90`` file, and a link to the custom-compiled DAG-MCNP executable that uses this custom ``source.F90`` file (link is only applicable for user in *cnergg* group on Wisconsin's CAE; see section *CNERG custom executables*).
+=======
+As of Oct. 30, 2012, the most up to date/capable *source.F90* replacement is ``source_gamma_refactor.F90``.
+>>>>>>> WIP updates to source.F90 readme.
 
 As of Nov. 27, 2012, the most up to date/capable ``source.F90`` replacement is ``source_gamma.F90``.
 
@@ -24,11 +28,18 @@ From KIT (Germany); Details specified in ``vendor/Leichtle_R2Smesh_Source_201110
 
 From CCFE (UK):
 
+<<<<<<< HEAD
 :``vendor/mcr2s_source.F90``: ...
+=======
+Custom-compiled dag-mcnp/mcnp5 executable links:
+
+:``mcnp5p_voxel``: compiled with ``source_gamma_voxel_alias.F90``
+>>>>>>> WIP updates to source.F90 readme.
 
 Compiling
 ----------
 
+<<<<<<< HEAD
 In general, the user must copy or link the custom ``source.F90`` within the ``src`` directory for MCNP, and then build MCNP as usual.
 
 General compiling tips
@@ -44,6 +55,13 @@ On a CAE system, one should be able to use the mcnp5p links for running problems
 Alternately, to use one of these in a custom compile of MCNP/DAG-MCNP, one can check out the DAG-MCNP source, and then link the files in the repository to the ``DAG-MCNP/5.1.51/trunk/Source/src`` folder like this:
 
 ``ln -s *path to mcnp_source folder*/source_gamma.F90 source.F90``
+=======
+On a CAE system, one should be able to use the mcnp5p links for running problems.
+
+Alternately, to use one of these in a custom compile of MCNP/DAG-MCNP, one can link the files in the repository to the ``DAG-MCNP/5.1.51/trunk/Source/src`` folder like this:
+
+``ln -s *path to this folder*/source_gamma_meshtal2.F90 source.F90``
+>>>>>>> WIP updates to source.F90 readme.
 
 (or you could copy the file to that folder, but it won't get updated when changes happen in the repository)
 
@@ -54,11 +72,25 @@ Since we are using some custom code, the .o files are in the way... use 'clean' 
 
 1:
 
+<<<<<<< HEAD
 ``»» ../scripts/build_dagmc clean``
 
 ``«« error messages``
 
 2:
+=======
+```
+>> ../scripts/build_dagmc clean
+<< error messages...
+```
+
+2:
+
+```
+>> ../scripts/build_dagmc
+<< Success!
+```
+>>>>>>> WIP updates to source.F90 readme.
 
 ``»» ../scripts/build_dagmc``
 
