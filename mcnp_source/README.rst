@@ -85,3 +85,4 @@ testing/
 ---------
 
 An ad-hoc testing framework using Python and bash scripting is located in the ``testing/`` directory.  Unit tests are written in Fortran.  The Python script extracts the necessary code from the custom ``source.F90``, and combines this code with some external parts of the MCNP code-base needed for testing (Specifically MCNP's random number generator, which is not export controlled, is reproduced in ``mcnp_placeholder.F90``).  Information on running the tests is given in ``testing/README.rst``.
+
