@@ -86,9 +86,10 @@ Since we are using some custom code, the .o files are in the way... use 'clean' 
 
 2:
 
-```
+``
 >> ../scripts/build_dagmc
 << Success!
+<<<<<<< HEAD
 ```
 >>>>>>> WIP updates to source.F90 readme.
 
@@ -112,6 +113,11 @@ For those in CNERG, a custom DAG-MCNP/MCNP5 executable compiled with the custom 
 Custom-compiled dag-mcnp/mcnp5 executable links:
 
 :``mcnp5p``: compiled with ``source_gamma.F90``
+=======
+``
+
+You can now call the mcnp5 executable that was created in ``Source/src``.
+>>>>>>> Benchmarking scripts/files for alias table generation.
 
 testing/
 ---------
