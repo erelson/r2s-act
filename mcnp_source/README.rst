@@ -57,12 +57,12 @@ Since we are using some custom code, the .o files are in the way... use 'clean' 
 
 2:
 
-```
+``
 >> ../scripts/build_dagmc
 << Success!
-```
+``
 
-You can now call the mcnp5 executable in Source/src.
+You can now call the mcnp5 executable that was created in ``Source/src``.
 
 If you make further modifications to the same source.F90, you can usually recompile directly with the second command above (clean is not needed).
 
