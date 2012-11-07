@@ -3,9 +3,9 @@
 gfortran -c mcnp_placeholder.F90
 gfortran -c alias_table.F90
 
-gfortran bench_alias_table.F90 -o run_benchmark mcnp_placeholder.o alias_table.o
+gfortran bench_alias_table.F90  -o _run_benchmark  mcnp_placeholder.o alias_table.o
 
-./run_benchmark
+./_run_benchmark
 
 rm *.o
 rm *.mod

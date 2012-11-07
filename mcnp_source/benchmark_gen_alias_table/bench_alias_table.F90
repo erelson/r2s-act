@@ -68,5 +68,11 @@ program benchmark
             call gen_table(i*10000)
           enddo
         enddo
+        !call gen_table(10000) 
+        do i=1,10
+          do j=2,10
+            call gen_table(i*100000)
+          enddo
+        enddo
 
 end program benchmark
