@@ -14,6 +14,7 @@ subroutine gen_alias_table(bins, pairs, probs_list, len)
 
         ! do an initial sort
         call heap_sort(bins, len)
+        call CPU_TIME(th)
 
         ! With each pass through the following loop, we ignore another bin
         !  (the j'th bin) by setting its probability vaue to -1.

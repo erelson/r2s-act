@@ -1,9 +1,6 @@
 !+ $Id: mcnp_random.F90,v 1.3 2006/10/03 02:10:16 mashnik Exp $
 ! Copyright LANS/LANL/DOE - see file COPYRIGHT_INFO
-!
-! This module contains code from within MCNP5, namely the rang() function.
-! The modules here are placeholders for testing a custom source routine,
-!  and are the bare minimum needed.
+!  ! This module contains code from within MCNP5, namely the rang() function.  ! The modules here are placeholders for testing a custom source routine, !  and are the bare minimum needed.
 !
 
 module mcnp_debug
@@ -411,6 +408,9 @@ module mcnp_global
 
         integer(i4knd) :: ipt
         real(dknd) :: xxx,yyy,zzz,wgt,erg
+
+        ! store time used for heap sort
+        real :: th
 
 end module mcnp_global
 

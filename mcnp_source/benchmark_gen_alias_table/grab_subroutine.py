@@ -1,6 +1,6 @@
 #! /usr/bin/env python
 
-#This script is passed a path for a source.F90 file (e.g. from the parent
+# This script is passed a path for a source.F90 file (e.g. from the parent
 #  directory).  It searches the file for 'subroutine source' at the start of
 #  a line, and then comments that line and subsequent lines until a line is
 #  found that begins with 'end subroutine source'. This hack is used for crude
@@ -32,6 +32,10 @@ def main():
             fw.write(line)
             if line.split()[0:3] == ["end","subroutine","doSwap"]:
                 keep = 2
+            # Record how long the heap sort took."
+            elif line.strip() == "call heap_sort(bins, len)":
+                fw.write("        call CPU_TIME(th)\n")
+
         elif keep == 2:
             break
         else:
