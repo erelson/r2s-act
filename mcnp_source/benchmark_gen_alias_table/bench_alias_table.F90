@@ -26,6 +26,9 @@ subroutine gen_table(len)
       ! CALL system_clock(count_max=cm)
       ! rate = REAL(cr)
 
+      ! Zero out the sum that records time spent in sort_for_alias_table()
+      tsum = 0
+
       do i=1,len
         nums(i) = rang()
       enddo
@@ -45,7 +48,8 @@ subroutine gen_table(len)
       call CPU_TIME(t2)
       !call SYSTEM_CLOCK(t2s)
 
-      write(*,*) "For ", len , " cpu time of    ", t2-t1, "heap sort in", th-t1
+      write(*,*) "For ", len , " cpu time tot", t2-t1, "heap sort", th-t1, &
+              "alias sort", tsum
       !write(*,*) "For ", len , " system time of ", (t2s-t1s)/rate
 
 end subroutine gen_table
@@ -64,13 +68,13 @@ program benchmark
 
         !call gen_table(10000) 
         do i=1,10
-          do j=1,10
+          do j=1,1
             call gen_table(i*10000)
           enddo
         enddo
-        call gen_table(10000) 
+
         do i=2,10
-          do j=1,10
+          do j=1,1
             call gen_table(i*100000)
           enddo
         enddo

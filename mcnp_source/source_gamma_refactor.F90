@@ -734,10 +734,13 @@ subroutine sort_for_alias_table(bins, length)
           do cnt=length,1,-1
             if (bins(length,1).ge.bins(cnt-1,1)) exit
           enddo
-          
+          ! found bin
+
           temp(1,1:2) = bins(length,1:2)
           bins(cnt+1:length,1:2) = bins(cnt:length-1,1:2)
           bins(cnt,1:2) = temp(1,1:2)
+
+          !remixed
 
         else
                 continue

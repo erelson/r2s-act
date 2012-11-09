@@ -28,13 +28,29 @@ def main():
         # Fun fact: range specifications exceeding list sizes are not a problem
         if keep == 0 and line.split('(')[0:1] == ["subroutine gen_alias_table"]:
             keep = 1
+        # Lines to keep.
+        # We also check various conditions where we want to insert text
         if keep == 1:
+            # Prepending the line
+            #if line.strip() == "call sort_for_alias_table(bins, len)":
+            #if line.strip() == "do cnt=length,1,-1":
+            if line.strip() == "! found bin":
+                fw.write("        call CPU_TIME(ta)\n")
+
+            # The actual line
             fw.write(line)
+
+            # Appending after the line
             if line.split()[0:3] == ["end","subroutine","doSwap"]:
                 keep = 2
-            # Record how long the heap sort took."
+            ## Record how long the heap sort took."
             elif line.strip() == "call heap_sort(bins, len)":
                 fw.write("        call CPU_TIME(th)\n")
+            #elif line.strip() == "call sort_for_alias_table(bins, len)":
+            #elif line.strip() == "! found bin":
+            elif line.strip() == "!remixed":
+                fw.write("        call CPU_TIME(tb)\n")
+                fw.write("        tsum = tsum + (tb-ta)\n")
 
         elif keep == 2:
             break

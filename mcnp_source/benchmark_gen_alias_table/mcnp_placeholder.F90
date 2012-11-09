@@ -410,7 +410,8 @@ module mcnp_global
         real(dknd) :: xxx,yyy,zzz,wgt,erg
 
         ! store time used for heap sort
-        real :: th
+        real :: th, tsum, ta, tb
+
 
 end module mcnp_global
 

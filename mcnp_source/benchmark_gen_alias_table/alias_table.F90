@@ -62,6 +62,7 @@ subroutine gen_alias_table(bins, pairs, probs_list, len)
 
 end subroutine gen_alias_table
 
+
 subroutine sort_for_alias_table(bins, length)
 ! subroutine locates where to move the last bin in bins to,
 ! such that bins is presumably completely sorted again.
@@ -81,10 +82,16 @@ subroutine sort_for_alias_table(bins, length)
           do cnt=length,1,-1
             if (bins(length,1).ge.bins(cnt-1,1)) exit
           enddo
-          
+        call CPU_TIME(ta)
+          ! found bin
+
           temp(1,1:2) = bins(length,1:2)
           bins(cnt+1:length,1:2) = bins(cnt:length-1,1:2)
           bins(cnt,1:2) = temp(1,1:2)
+
+          !remixed
+        call CPU_TIME(tb)
+        tsum = tsum + (tb-ta)
 
         else
                 continue
