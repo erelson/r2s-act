@@ -95,16 +95,17 @@ module source_data
         integer(i8knd) :: npart_write = 0 ! = counter for debug output
         ! Other variables
         integer :: stat
-        integer :: i_ints,j_ints,k_ints,n_mesh_cells,n_active_mat
-        real,dimension(:),allocatable :: i_bins,j_bins,k_bins
+        integer :: i_ints, j_ints, k_ints, n_mesh_cells, n_active_mat
+        real,dimension(:),allocatable :: i_bins, j_bins, k_bins
         integer,dimension(100) :: active_mat
         character*3000 :: line ! needed for reading active_mat from gammas
         ! Saved variables will be unchanged next time source is called
         !save spectrum,i_ints,j_ints,k_ints,n_active_mat,n_ener_grps, &
-        save i_ints,j_ints,k_ints,n_active_mat,n_ener_grps, &
-             i_bins,j_bins,k_bins,active_mat,my_ener_phot,ikffl,pairs, &
+        save i_ints, j_ints, k_ints, n_active_mat, n_ener_grps, &
+             i_bins, j_bins, k_bins, active_mat, my_ener_phot, ikffl, pairs, &
              pairsProbabilities, n_mesh_cells, bias, bias_probability_sum, &
-             ergPairsProbabilities,ergPairs,tot_list,bias_list,ii,kk,jj,voxel
+             ergPairsProbabilities, ergPairs, tot_list, bias_list, &
+             ii, kk, jj, voxel
        
 end module source_data
 
@@ -128,13 +129,13 @@ subroutine source_setup
         if (ergs.eq.1) then
           call read_custom_ergs(50)
           write(*,*) "The following custom energy bins are being used:"
-          DO i=1,n_ener_grps
+          do i=1,n_ener_grps
             write(*,'(2es11.3)') my_ener_phot(i), my_ener_phot(i+1)
-          ENDDO
+            enddo
         else ! use default energy groups; 42 groups
           n_ener_grps = 42
           ALLOCATE(my_ener_phot(1:n_ener_grps+1))
-          my_ener_phot=(/0.0,0.01,0.02,0.03,0.045,0.06,0.07,0.075,0.1,0.15, &
+          my_ener_phot = (/0.0,0.01,0.02,0.03,0.045,0.06,0.07,0.075,0.1,0.15, &
             0.2,0.3,0.4,0.45,0.51,0.512,0.6,0.7,0.8,1.0,1.33,1.34,1.5, &
             1.66,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0, &
             10.0,12.0,14.0,20.0,30.0,50.0/)
@@ -147,15 +148,15 @@ subroutine source_setup
         if (bias.eq.1) ALLOCATE(bias_list(1:n_mesh_cells))
          
         ! reading in source strength and alias table for each voxel 
-        i=1 ! i keeps track of # of voxel entries
+        i = 1 ! i keeps track of # of voxel entries
         do
           read(50,*,iostat=stat) (spectrum(i,j), j=1,bias + n_ener_grps)
           if (stat.ne.0) then
-            i=i-1
+            i = i - 1
             exit ! exit the do loop
           endif
           if (bias.eq.1) bias_list(i) = spectrum(i,bias+n_ener_grps)
-          i=i+1
+          i = i + 1
         enddo
         
         ! Check for correct number of voxel entries in gammas file.
@@ -249,7 +250,7 @@ subroutine read_header (myunit)
         do i=1,100
           if (active_mat(i).eq.0) exit
         enddo
-        n_active_mat=i-1
+        n_active_mat = i-1
 
 end subroutine read_header
 
@@ -367,7 +368,7 @@ subroutine source
 !------------------------------------------------------------------------------
 !     In the first history (ikffl) read 'gammas' file. ikffl under MPI works ?
 !------------------------------------------------------------------------------
-        ikffl=ikffl+1
+        ikffl = ikffl + 1
         if (ikffl.eq.1) then ! if first particle ...
           ! Call setup subroutine
           call source_setup
@@ -389,18 +390,18 @@ subroutine source
         if (tot_list(voxel).eq.0) goto 10
 
                
-!       IPT=2 for photons. JSU=TME=0 works well.
-        ipt=2 ! particle type: 2 = photon
-        jsu=0
-        tme=0
+!       IPT = 2 for photons. JSU=TME=0 works well.
+        ipt = 2 ! particle type: 2 = photon
+        jsu = 0
+        tme = 0
 
 !----------------------------------------------------------------------------
 !       Determine in which cell you are starting. 
 !       Subroutine is copied from MCNP code (sourcb.F90). 
 !       ICL and JUNF should be set to 0 for this part of the code to work.
 !----------------------------------------------------------------------------
-        icl=0
-        junf=0
+555     icl = 0
+        junf = 0
         
   ! default for cel:  find the cell that contains xyz.
         if( icl.eq.0 ) then
@@ -447,7 +448,7 @@ subroutine source
         else
           if( krflg.eq.0 )  goto 543
           call chkcel(icl,2,j)
-          if( j.ne.0 ) call errprn(1,-1,0,zero,zero,' ',' ',&
+          if( j.ne.0 ) call errprn(1,-1,0,zero,zero,' ',' ', &
             & 'the source point is not in the source cell.')
         endif
 
@@ -462,6 +463,14 @@ subroutine source
               goto 544 ! Position is ok; particle starts in activated material
             endif
           enddo
+        elseif (samp_vox.eq.1) then
+          if (nmt(mat(icl)).eq.0) then
+            ! particle rejected... resample within the voxel
+            call sample_within_voxel
+            goto 555
+          else
+            goto 544
+          endif
         else
           goto 544 ! skip material rejection
         endif
@@ -477,12 +486,12 @@ subroutine source
         ! Determine weight.
         if (samp_vox.eq.1) then
           if (bias.eq.1) then
-            wgt=bias_list(voxel)
+            wgt = bias_list(voxel)
           else
-            wgt=1.0
+            wgt = 1.0
           endif
         elseif (samp_uni.eq.1) then
-          wgt=tot_list(voxel) 
+          wgt = tot_list(voxel) 
         endif
         
         ! Debug output if enabled
@@ -508,18 +517,28 @@ subroutine voxel_sample
        
         ! Math to get mesh indices in each dimension
         ! We -1'd the value of the index 'voxel' so next three lines are easy
-        ii= voxel / (k_ints*j_ints)
-        jj= mod(voxel, k_ints*j_ints) / k_ints
-        kk= mod(mod(voxel, k_ints*j_ints), k_ints)
+        ii = voxel / (k_ints*j_ints)
+        jj = mod(voxel, k_ints*j_ints) / k_ints
+        kk = mod(mod(voxel, k_ints*j_ints), k_ints)
 
         voxel = voxel + 1
- 
-!       Sample random spot within the voxel
-        xxx=i_bins(ii+1)+rang()*(i_bins(ii+2)-i_bins(ii+1))
-        yyy=j_bins(jj+1)+rang()*(j_bins(jj+2)-j_bins(jj+1))
-        zzz=k_bins(kk+1)+rang()*(k_bins(kk+2)-k_bins(kk+1))
+
+        call sample_within_voxel
         
 end subroutine voxel_sample
+
+
+subroutine sample_within_voxel
+! Samples within the extents of a voxel
+! ii, jj, kk are presumed to have been already determined.
+  use source_data
+ 
+!       Sample random spot within the voxel
+        xxx = i_bins(ii+1)+rang()*(i_bins(ii+2)-i_bins(ii+1))
+        yyy = j_bins(jj+1)+rang()*(j_bins(jj+2)-j_bins(jj+1))
+        zzz = k_bins(kk+1)+rang()*(k_bins(kk+2)-k_bins(kk+1))
+
+end subroutine sample_within_voxel
 
 
 subroutine uniform_sample
@@ -527,9 +546,9 @@ subroutine uniform_sample
   use source_data
 
         ! Choose position
-        xxx=i_bins(1)+rang()*(i_bins(i_ints+1)-i_bins(1))
-        yyy=j_bins(1)+rang()*(j_bins(j_ints+1)-j_bins(1))
-        zzz=k_bins(1)+rang()*(k_bins(k_ints+1)-k_bins(1))
+        xxx = i_bins(1)+rang()*(i_bins(i_ints+1)-i_bins(1))
+        yyy = j_bins(1)+rang()*(j_bins(j_ints+1)-j_bins(1))
+        zzz = k_bins(1)+rang()*(k_bins(k_ints+1)-k_bins(1))
 
         ! Identify corresponding voxel
         do ii=1,i_ints
@@ -564,7 +583,7 @@ subroutine sample_erg (myerg, myvoxel, n_grp, n_vox, probList, pairsList)
           j = pairsList(myvoxel,alias_bin,2)
         endif
        
-        myerg=my_ener_phot(j)+(1-rang())*(my_ener_phot(j+1)-my_ener_phot(j))
+        myerg = my_ener_phot(j)+(1-rang())*(my_ener_phot(j+1)-my_ener_phot(j))
 
 end subroutine sample_erg
 
@@ -618,10 +637,7 @@ subroutine gen_voxel_alias_table
         bias_probability_sum = 0
         do i=1,n_mesh_cells
           ! the average bin(i,1) value assigned is n_inv
-          ! bins(i,1) = spectrum(i,1) / sourceSum * n_mesh_cells
-          ! bins(i,1) = spectrum(i,1) / n_source_cells !* &
           bins(i,1) = tot_list(i) / sourceSum
-          !         (real(n_mesh_cells)/real(n_source_cells))
           bins(i,2) = i
 
           ! if biasing being done, get the quantity: sum(p_i*b_i)
@@ -673,7 +689,7 @@ subroutine gen_alias_table(bins, pairs, probs_list, len)
         ! pairs stores the two possible values for each alias table bin
         ! probs_list stores the probability of the first value in the
         !  alias table bin being used
-        n_inv = (1._dknd/len)
+        n_inv = 1._dknd / len
 
         do j=1,len
 
@@ -731,8 +747,8 @@ subroutine sort_for_alias_table(bins, length)
  
           ! The logic in this do loop may be problematic at 
           !  cnt = length or cnt = 1...
-          do cnt=length,1,-1
-            if (bins(length,1).ge.bins(cnt-1,1)) exit
+          do cnt=length-1,1,-1
+            if (bins(length,1).ge.bins(cnt,1)) exit
           enddo
           ! found bin
 
@@ -743,7 +759,7 @@ subroutine sort_for_alias_table(bins, length)
           !remixed
 
         else
-                continue
+          continue
         endif
 
 end subroutine sort_for_alias_table
