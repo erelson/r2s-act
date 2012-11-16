@@ -25,13 +25,13 @@ subroutine test_heap_sort
         numberlist(1:20,2) = (/ 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18, &
                 19,20 /)
         
-        call heap_sort(numberlist,20)
+        call heap_sort(numberlist, 20)
         
         ! iterate through, checking that list is in order
         do i=2,20
           !assert
           if (numberlist(i-1,1).gt.numberlist(i,1)) then
-            write(*,*) "Sorting error!"
+            write(*,*) "ERROR - test_heap_sort: List not in proper order."
             return
           endif
         enddo 
@@ -39,6 +39,35 @@ subroutine test_heap_sort
         write(*,*) "test_heap_sort: list sorted correctly"
 
 end subroutine test_heap_sort
+
+
+subroutine test_sort_for_alias_table
+! Test checks for off by one error in sorted alias table
+! Example numbers taken from testing where off by one error has happened before
+        
+        real(dknd),dimension(1:6,1:2) :: binList
+        integer(i4knd),dimension(1:6,1:2) :: pairsList, expectedPairsList
+        real(dknd),dimension(1:6) :: probList, expectedProbList
+        real(dknd) :: a, b
+
+        binList = reshape( (/ 2.0, 2.0, 6.0, 6.0, 8.0, 4.0, &
+                     0.0, 0.0, 0.0, 0.0, 0.0, 0.0 /), shape(binList))
+
+        call sort_for_alias_table(binList, 6)
+
+        ! iterate through, checking that list is in order
+        do i=2,6
+          !assert
+          if (binList(i-1,1).gt.binList(i,1)) then
+            write(*,*) "ERROR - test_sort_for_alias_table: " // &
+                "List not in proper order. Probable off-by-one error."
+            return
+          endif
+        enddo 
+
+        write(*,*) "test_sort_for_alias_table: list sorted correctly"
+
+end subroutine test_sort_for_alias_table
 
 
 subroutine test_read_custom_ergs
@@ -214,12 +243,14 @@ subroutine test_gen_erg_alias_table
 
         binList = (/ .01,.04,.05,.07,.09,.1,.13,.2,.22,.09 /)
 
-        expectedPairsList = reshape( (/ 1,2,3,4,8,5,10,9,6,7,9,8,8,9, &
-                                7,7,7,7,0,0 /), shape(expectedPairsList))
-        expectedProbList = (/ 9.99999E-002,0.3999999,0.50000000, &
-                 0.7000000,0.9000000,0.9000000,0.9000000,0.9999999, &
-                 1.000000000,1.0000000 /)
+        expectedPairsList = reshape( (/ 1,2,3,9,4,8,5,10,6,7,9,9,8,8, &
+                                8,7,7,7,0,0 /), shape(expectedPairsList))
 
+        expectedProbList = (/ 9.9999997E-002,0.3999999,0.5000000, &
+                 0.6999999,0.7000000,0.9000000, &
+                 0.9000000,0.9000000,1.0000000, &
+                 1.0000000 /)
+ 
         call gen_erg_alias_table(10, binList, pairsList, probList)
 
         do i=1,10
@@ -227,12 +258,17 @@ subroutine test_gen_erg_alias_table
           a = probList(i)
           b = expectedProbList(i)
           if (abs(a-b).gt.(1e-5*max(a,b))) then
-            write(*,*) "ERROR - test_gen_erg_alias_table in" // &
-                                " table's probabilities", a, b
+            write(*,*) "ERROR - test_gen_erg_alias_table: " // &
+                                "discrepancy in table's probabilities", a, b
+            write(*,*) "Full list of expected probabilities:", expectedProbList
+            write(*,*) "Full list of actual probabilities:", probList
             return
           endif
           if (pairsList(i,1).ne.expectedPairsList(i,1)) then
-            write(*,*) "ERROR - test_gen_erg_alias_table in table's bin pairs"
+            write(*,*) "ERROR - test_gen_erg_alias_table: " // &
+                                "mismatch in table's bin pairs"
+            write(*,*) "Expected:", expectedPairsList
+            write(*,*) "Result:", pairsList
             return
           endif
         enddo
@@ -331,6 +367,7 @@ program test_source
 
         write(*,*) "Running Fortran tests --"
         call test_heap_sort
+        call test_sort_for_alias_table
         call test_read_custom_ergs
         call test_read_header
         call test_read_params
