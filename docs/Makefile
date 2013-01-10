@@ -50,11 +50,11 @@ html:
 
 gh-pages:
 	git checkout gh-pages
-	rm -rf _build #_sources _static
+	rm -rf _build _sources _static
 	git checkout autodoctry $(GH_PAGES_SOURCES)
 	git reset HEAD
 	#make html
-	./rebuild.sh
+	./rebuild.sh # handles make html
 	mv -fv _build/html/* ../
 	rm -rf $(GH_PAGES_SOURCES) _build
 	git add -A
