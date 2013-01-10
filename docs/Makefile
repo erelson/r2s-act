@@ -1,7 +1,7 @@
 # Makefile for Sphinx documentation
 #
 
-GH_PAGES_SOURCES = Makefile _themes _sphinxext index.rst conf.py rebuild.sh ../r2s/
+GH_PAGES_SOURCES = Makefile _themes _sphinxext index.rst conf.py rebuild.sh ../scripts/r2s/
 
 # You can set these variables from the command line.
 SPHINXOPTS    =
