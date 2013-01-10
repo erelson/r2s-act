@@ -1,7 +1,7 @@
 # Makefile for Sphinx documentation
 #
 
-GH_PAGES_SOURCES = Makefile r2s _themes _sphinxext index.rst
+GH_PAGES_SOURCES = Makefile _themes _sphinxext index.rst
 
 # You can set these variables from the command line.
 SPHINXOPTS    =
