@@ -19,7 +19,7 @@ The Rigorous Two Step (R2S) method is used to determine the photon fluxes that r
  
 _______________________________________________________________________________
 University of Wisconsin Rigorous Two Step Activation Work Flow (UW-R2S)
-_______________________________________________________________________________
+_______________________________________________________________________________ 
 
 UW-R2S is composed of a series of scripts written in the Python programming language to facilitate R2S calculations in complex 3D geometries. The end product of UW-R2S is a single Cartesian MOAB mesh file with each voxel tagged with:
 
