@@ -57,6 +57,8 @@ gh-pages:
 	./rebuild.sh # handles make html
 	mv -fv _build/html/* ../
 	rm -rf $(GH_PAGES_SOURCES) _build
+	cd ../
+	rm -rf scripts/ docs/
 	git add -A
 	git commit -m "Generated gh-pages for `git log autodoctry -1 --pretty=short --abbrev-commit`"  ; git checkout autodoctry
 #	git ci -m "Generated gh-pages for `git log autodoctry -1 --pretty=short --abbrev-commit`" && git push erelson gh-pages ; git checkout autodoctry
