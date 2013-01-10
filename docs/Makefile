@@ -1,7 +1,7 @@
 # Makefile for Sphinx documentation
 #
 
-GH_PAGES_SOURCES = Makefile _themes _sphinxext index.rst
+GH_PAGES_SOURCES = Makefile _themes _sphinxext index.rst conf.py rebuild.sh
 
 # You can set these variables from the command line.
 SPHINXOPTS    =
@@ -53,8 +53,9 @@ gh-pages:
 	rm -rf _build #_sources _static
 	git checkout autodoctry $(GH_PAGES_SOURCES)
 	git reset HEAD
-	make html
-	mv -fv _build/html/* ./
+	#make html
+	./rebuild.sh
+	mv -fv _build/html/* ../
 	rm -rf $(GH_PAGES_SOURCES) _build
 	git add -A
 	git ci -m "Generated gh-pages for `git log autodoctry -1 --pretty=short --abbrev-commit`"  ; git checkout autodoctry
