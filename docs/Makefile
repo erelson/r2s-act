@@ -50,7 +50,10 @@ html:
 
 gh-pages:
 	git checkout gh-pages
-	rm -rf _build _sources _static
+	# Clean out _build from docs/
+	rm -rf _build
+	# Clean out contents of _build/html/ from repo root.
+	rm -rf ../_sources ../_static ../r2s
 	git checkout autodoctry $(GH_PAGES_SOURCES)
 	git reset HEAD
 	#make html
