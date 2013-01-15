@@ -8,7 +8,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>University of Wisconsin Rigorous Two Step Activation Work Flow (UW-R2S) User Manual &mdash; R2S-ACT 0.1 documentation</title>
+    <title>University of Wisconsin Rigorous Two Step Activation Work Flow (UW-R2S) User Manual &mdash; UW-R2S - CNERG</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -25,15 +25,15 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="R2S-ACT 0.1 documentation" href="index.html" />
+    <link rel="top" title="UW-R2S - CNERG" href="index.html" />
     <link rel="next" title="r2s Package" href="r2s/r2s.html" />
     <link rel="prev" title="Welcome to R2S-ACT’s documentation!" href="index.html" /> 
   </head>
   <body> 
 <div id="page-div" class="page">
 <div id="header"><a id="uwhome" href="http://www.wisc.edu"><img src="http://cnergdata.engr.wisc.edu/_static/images/wordmark.gif" alt="University of Wisconsin–Madison" width="260" height="11" /></a> <a id="crest" href="http://www.wisc.edu"><img src="http://cnergdata.engr.wisc.edu/_static/images/crest.png" alt="" width="70" height="106" /></a>
-    <h1 id="siteTitle"><a href="/"><span>u''</span></a></h1>
-    <div id="tagline"><span>u''</span></div>
+    <h1 id="siteTitle"><a href="/"><span>UW-R2S</span></a></h1>
+    <div id="tagline"><span>3-D Neutron Activation Workflow</span></div>
     <ul id="globalnav">
       <li id="uwsearch"><a href="http://www.wisc.edu/search/">UW Search</a></li>
       <li><a href="http://my.wisc.edu">My UW</a></li>
@@ -54,7 +54,7 @@
 
     <div id="nav" class="main-menu-container">
       <ul id="menu-main" class="sf-menu">
-        <li class="menu-item"><a href="index.html">R2S-ACT 0.1 documentation</a></li>
+        <li class="menu-item"><a href="index.html">UW-R2S</a></li>
         <li class="menu-item" style="margin-right: 10px">
           <a href="index.html" title="Welcome to R2S-ACT’s documentation!"
              accesskey="P">previous</a>
@@ -194,9 +194,9 @@
 <ol class="arabic simple">
 <li>neutron fluxes and relative errors for every neutron energy group, total neutron flux (neutrons/cm^2/s)</li>
 <li>material fractions and relative errors for every material in the geometry</li>
-<li>photon source strengths for every photon energy group (photons/cm^2/s)</li>
+<li>photon source strengths for every photon energy group (photons/cm^3/s)</li>
 <li>total photon source strength over the entire geometry (photons/s)</li>
-<li>photon flux and/or dose for every photon energy group and relative errors, total flux and/or dose (photons/cm^2/s, any dose units)</li>
+<li>photon flux and/or dose for every photon energy group and relative errors, total flux and/or dose (photons/cm^3/s, any dose units)</li>
 </ol>
 <p>The backbone of UW-R2S is the physics codes used for transport and activation. The Direct Accelerated Geometry Monte Carlo (DAG-MC) version of MCNP5 (Los Alamos National Laboratory), known as DAG-MCNP5 (UW-Madison) is used for both neutron and photon transport. This allows for geometry and materials information to be specified using CAD software, namely CubIt (Sandia National Laboratory). For the photon transport step, a custom compiled version of DAG-MCNP5, with a custom source.F90, is used. Analytic and Laplacian Adaptive Radioactivity Analysis (ALARA), developed at UW-Madison, is used for material activation.</p>
 </div>
@@ -207,15 +207,20 @@
 <p>The UW-R2S code is available at <a class="reference external" href="https://github.com/svalinn/r2s-act">https://github.com/svalinn/r2s-act</a>.</p>
 <p>UW-R2S has numerous dependencies:</p>
 <ol class="arabic simple">
-<li>Python</li>
-<li>DAG-MCNP5 compiled with UW-R2S source.F90, from <a class="reference external" href="https://github.com/svalinn/DAGMC">https://github.com/svalinn/DAGMC</a></li>
+<li>Python 2.6+</li>
+<li>DAG-MCNP5 compiled with UW-R2S <cite>mcnp_source/source_gamma.F90</cite>, from <a class="reference external" href="https://github.com/svalinn/DAGMC">https://github.com/svalinn/DAGMC</a></li>
 <li>CubIt, from RSICC, <a class="reference external" href="http://rsicc.ornl.gov/">http://rsicc.ornl.gov/</a></li>
 <li>ALARA, from <a class="reference external" href="https://github.com/svalinn/ALARA">https://github.com/svalinn/ALARA</a></li>
 <li>Mesh Oriented Data Base (MOAB), from svn.mcs.anl.gov/repos/ITAPS/MOAB/trunk</li>
 <li>PyTAPS, the Python interface for ITAPS, (Interoperable Technologies for Advanced Petascale Simulations), from <a class="reference external" href="http://pypi.python.org/pypi/PyTAPS/1.4">http://pypi.python.org/pypi/PyTAPS/1.4</a></li>
+<li>PyNE, <em>Python for Nuclear Engineering</em>, from <a class="reference external" href="http://pynesim.org/">http://pynesim.org/</a>
+(Has its own dependencies listed at <a class="reference external" href="https://github.com/pyne/pyne">https://github.com/pyne/pyne</a>)</li>
 </ol>
 <p>Aside from MCNP5 and CubIt, available from RSICC, all other codes are open source with well documented installation instructions.</p>
-<p>Although not a dependency, the visualization program VisIT (Lawrence Livermore National Laboratory) is useful for visualizing results. Executables are available at <a class="reference external" href="https://wci.llnl.gov/codes/visit/">https://wci.llnl.gov/codes/visit/</a>.</p>
+<p>The user guide and other documentation is available at <a class="reference external" href="http://svalinn.github.com/r2s-act/">http://svalinn.github.com/r2s-act/</a> .
+Building the documentation requires Sphinx, from <a class="reference external" href="http://sphinx-doc.org">http://sphinx-doc.org</a></p>
+<p>Although not a dependency, the visualization program VisIT (Lawrence Livermore National Laboratory) is useful for visualizing results data stored on MOAB meshes in the .vtk format.
+Executables are available at <a class="reference external" href="https://wci.llnl.gov/codes/visit/">https://wci.llnl.gov/codes/visit/</a>.</p>
 <div class="section" id="compiling-dag-mcnp5-with-uw-r2s-source-f90">
 <h3><a class="toc-backref" href="#id6">Compiling DAG-MCNP5 with UW-R2S source.F90</a><a class="headerlink" href="#compiling-dag-mcnp5-with-uw-r2s-source-f90" title="Permalink to this headline">¶</a></h3>
 <p>In MCNP5, fixed source information is typically specified with the SDEF card. However, the SDEF card is limited to 1000 distributions. Building DAG-MCNP5 against UW-R2S source.F90 allow for an unlimited number of distributions. This is necessary because in the UW-R2S work flow, every mesh point is a particle source and generally high resolution spacial and energy information is sought after. To use the UW-R2S source.F90 version, no source cards (SDEF, SI, SP, etc.) appears in the input file. Instead, this version reads in a file (<tt class="docutils literal"><span class="pre">gammas</span></tt>) that contain all of the source information. This file is automatically generated by the R2S work flow. Technically this version is only necessary for the photon transport step (and not the neutron transport step), however if the MCNP input includes a source definition, the problem run like normal. Thus the same executable can be used for bother regular, and R2S-ACT photon transport calculations. Instructions for compiling DAG-MCNP5 with UW-R2S source.F90 appear below.</p>
@@ -684,7 +689,15 @@ Default=False</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Purpose:</th><td class="field-body"><p class="first">This script reads an MCNP input file and prints out ALARA materials definitions for all the materials specified within it. The user must manually define the densities for each material [g/cm^3] by replacing all instances of &lt;rho&gt; in the resulting file. Material defintions must be formatted so that the material number (e.g. m1, m2) and each isotope occupy separate lines.</p>
+<tr class="field-odd field"><th class="field-name">Purpose:</th><td class="field-body"><p class="first">This script reads an MCNP input file and prints out an ALARA matlib file. Material definitions are taken from material cards and densities are taken from cell cards. If a material appears in multiple cells with different densities an ALARA material definition will be printed for each density.</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Other Instructions:</th></tr>
+<tr><td>&nbsp;</td><td class="field-body"><p class="first">This script also reads metadata that can be specified in the MCNP input file and prints this same metadata to the ALARA matlib file. This metadata must appear in the lines directly above the material definition in the form &#8220;C X:Y&#8221; or &#8220;c X:Y&#8221; where X is &#8220;name&#8221;, &#8220;source&#8221;, or &#8220;comments&#8221;, and Y is the corresponding metadata. The &#8220;name&#8221; and &#8220;source&#8221; metadata must appear on a single line. The &#8220;comment&#8221; metadata can span any arbitrary number of lines, each new line starting with &#8220;C&#8221; or &#8220;c&#8221;. Any or all of the 3 metadata flags can be used, but there must be no blank lines between metadata lines (i.e. no lines that contain only &#8220;C&#8221; or &#8220;c&#8221;).
+In the resulting matlib file metadata will be in the form &#8220;# X:Y&#8221;. In additional entry will appear in the form &#8220;mat number: X&#8221; where X is the material number in the MCNP input. The name of the material in the matlib is the same as the &#8220;name&#8221; metadata. For materials with multiple densities, if &#8220;name&#8221; is present every material will have the same name. For this reason it is not advisable to specify &#8220;name&#8221; metadata for multidensity materials. If the &#8220;name&#8221; metadata does not appear, the material will be named in the form &#8220;matX_rho-Y&#8221; where X is the MCNP material number and Y is the mass density associated with the material. Note that even when atom density is specifed in the cell card the mass density is printed.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Usage:</th><td class="field-body"><p class="first">This script relies on the PyNE materials class and its methods. The MCNP inp is read into a PyNE material. Metadata is stored in the attrs.</p>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Inputs:</th><td class="field-body"><p class="first">MCNP input file</p>
@@ -810,6 +823,9 @@ Default=False</p>
     <div id="footer">
       <p>
         &copy; Copyright 2013, CNERG.
+      </p>
+      <p>
+      Last updated on Jan 15, 2013.
       </p>
       <p>
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
