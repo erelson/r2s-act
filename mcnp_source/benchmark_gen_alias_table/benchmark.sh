@@ -1,4 +1,4 @@
-./grab_subroutine.py ../source_gamma_refactor.F90
+./grab_subroutine.py ../source_refactor.F90
 
 gfortran -c mcnp_placeholder.F90
 gfortran -c alias_table.F90
