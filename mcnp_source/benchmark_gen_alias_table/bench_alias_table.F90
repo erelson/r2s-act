@@ -45,7 +45,8 @@ subroutine gen_table(len)
       call CPU_TIME(t2)
       !call SYSTEM_CLOCK(t2s)
 
-      write(*,*) "For ", len , " cpu time of    ", t2-t1, "heap sort in", th-t1
+      write(*,*) "For n=", len , " cpu time of    ", t2-t1
+      !write(*,*) "For ", len , " cpu time of    ", t2-t1, "heap sort in", th-t1
       !write(*,*) "For ", len , " system time of ", (t2s-t1s)/rate
 
 end subroutine gen_table

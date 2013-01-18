@@ -26,11 +26,12 @@ def main():
     keep = 0
     for line in fr:
         # Fun fact: range specifications exceeding list sizes are not a problem
-        if keep == 0 and line.split('(')[0:1] == ["subroutine gen_alias_table"]:
+        if keep == 0 and line.split('(')[0:1] == ["subroutine gen_alias_table "]:
             keep = 1
         if keep == 1:
             fw.write(line)
-            if line.split()[0:3] == ["end","subroutine","doSwap"]:
+            #if line.split()[0:3] == ["end","subroutine","doSwap"]:
+            if line.split()[0:3] == ["end","subroutine","gen_alias_table"]:
                 keep = 2
             # Record how long the heap sort took."
             elif line.strip() == "call heap_sort(bins, len)":
@@ -48,7 +49,7 @@ def main():
     fw.close()
 
     if keep != 2:
-        print "ERROR: subroutine gen_alias_table was not found."
+        print "ERROR: subroutine gen_alias_table was not found. keep={0}".format(keep)
     else:
         print "Successfully found gen_alias_table and related subroutines'\n"
 
