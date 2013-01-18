@@ -24,22 +24,41 @@ def main():
 
     #fw.write("module mod_alias_table\n\n")
 
-    keep = 0
+    keep = -2
     for line in fr:
+        if keep == -2 and line.strip() == "subroutine source_setup":
+            keep = -1
         # Fun fact: range specifications exceeding list sizes are not a problem
         #if keep == 0 and line.split('(')[0:1] == ["subroutine voxel_sample "]:
-        if keep == 0 and line.strip() == "subroutine voxel_sample":
+        elif keep == 0 and line.strip() == "subroutine voxel_sample":
             keep = 1
-        if keep == 1:
+        #elif keep == 2 and line.split('(')[0:1] == ["subroutine gen_alias_table "]:
+        elif keep == 2 and line.strip() == "subroutine gen_voxel_alias_table":
+            keep = 3
+
+
+        if keep == -1:
+            fw.write(line)
+            if line.split()[0:3] == ["end","subroutine","read_header"]:
+                keep = 0
+        elif keep == 1:
             fw.write(line)
             #if line.split()[0:3] == ["end","subroutine","voxel_sample"]:
             if line.split()[0:3] == ["end","subroutine","uniform_sample"]:
                 keep = 2
-            # Record how long the heap sort took."
-            elif line.strip() == "call heap_sort(bins, len)":
-                fw.write("        call CPU_TIME(th)\n")
+            ## Record how long the heap sort took."
+            #elif line.strip() == "call heap_sort(bins, len)":
+            #    fw.write("        call CPU_TIME(th)\n")
+        elif keep == 3:
+            fw.write(line)
+            #if line.split()[0:3] == ["end","subroutine","voxel_sample"]:
+            if line.split()[0:3] == ["end","subroutine","gen_alias_table"]:
+                keep = 4
+            ## Record how long the heap sort took."
+            #elif line.strip() == "call heap_sort(bins, len)":
+            #    fw.write("        call CPU_TIME(th)\n")
 
-        elif keep == 2:
+        elif keep == 4:
             break
         else:
             pass
@@ -48,10 +67,10 @@ def main():
 
     fw.close()
 
-    if keep != 2:
+    if keep != 4:
         print "ERROR: subroutine subroutine voxel_sample was not found. keep={0}".format(keep)
     else:
-        print "Successfully found voxel_sample and related subroutines'\n"
+        print "Successfully found all subroutines'\n"
 
     return
 

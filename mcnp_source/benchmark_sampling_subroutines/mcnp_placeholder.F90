@@ -418,4 +418,56 @@ end module mcnp_global
 !+ $Id: mcnp_debug.F90,v 1.2 2006/10/03 02:10:16 mashnik Exp $
 ! Copyright LANS/LANL/DOE - see file COPYRIGHT_INFO
 
+module source_data
+! Variables used/shared by most of the subroutines in this file.
+  use mcnp_global
+   
+        character*30 :: gammas_file = 'gammas'
+        integer(i8knd) :: ikffl = 0 ! = local record of history #
+        ! Parameters - these are toggled by gammas
+        integer :: bias, samp_vox, samp_uni, debug, ergs, mat_rej, cumulative
+        ! Position sampling variables
+        integer :: voxel, n_source_cells
+        real(dknd),dimension(:),allocatable :: tot_list
+        ! Voxel alias table variables
+        real(dknd) :: sourceSum, n_inv, norm
+        real(dknd),dimension(:,:), allocatable :: bins
+        real(dknd),dimension(:),allocatable :: pairsProbabilities
+        integer(i4knd),dimension(:,:), allocatable :: pairs
+        integer :: alias_bin
+        ! Biasing variables
+        real(dknd) :: bias_probability_sum
+        real(dknd),dimension(:),allocatable :: bias_list
+        ! Energy bins variables
+        real(dknd),dimension(:,:), allocatable :: spectrum
+        real(dknd),dimension(:),allocatable :: my_ener_phot
+        integer :: n_ener_grps
+        ! Energy bins alias table variables
+        real(dknd),dimension(:,:),allocatable :: ergPairsProbabilities
+        integer(i4knd),dimension(:,:,:),allocatable :: ergPairs
+        integer :: ii,kk,jj
+        ! Debug output variables
+        integer(i8knd) :: npart_write = 0 ! = counter for debug output
+        ! Other variables
+        integer :: stat
+        integer :: i_ints, j_ints, k_ints, n_mesh_cells, n_active_mat
+        real,dimension(:),allocatable :: i_bins, j_bins, k_bins
+        integer,dimension(100) :: active_mat
+        character*3000 :: line ! needed for reading active_mat from gammas
+        ! Saved variables will be unchanged next time source is called
+        !save spectrum,i_ints,j_ints,k_ints,n_active_mat,n_ener_grps, &
+        save i_ints, j_ints, k_ints, n_active_mat, n_ener_grps, &
+             i_bins, j_bins, k_bins, active_mat, my_ener_phot, ikffl, pairs, &
+             pairsProbabilities, n_mesh_cells, bias, bias_probability_sum, &
+             ergPairsProbabilities, ergPairs, tot_list, bias_list, &
+             ii, kk, jj, voxel
+       
+end module source_data
 
+subroutine expirx( mm, hs, hm )
+! Placeholder subroutine
+        implicit none
+        integer,          intent(in) :: mm
+        character(len=*), intent(in) :: hs, hm
+
+end subroutine expirx
