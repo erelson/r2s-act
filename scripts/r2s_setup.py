@@ -168,16 +168,23 @@ step2setup = False
 # -add_fmesh_card adds an FMESH tally with mesh information to the MCNP
 #   photon input file that is created. Mesh information is taken from 
 #   step1_datafile.
+# -resample enables resampling within a voxel for both uniform and voxel
+#   sampling.
+# -uni_resamp_all toggles whether a resampled particle in uniform sampling
+#   is resampled over the entire problem, rather than within the selected voxel.
+#   This approach will result in an unfair game being played for most problems.
 # Note: photon_isotope and photon_cooling can have multiple, comma 
 #  delimited entries for use in conjunction with the r2s_step2setup.py script.
 photon_isotope = TOTAL
 photon_cooling = 0
 sampling = v
-# Next four are boolean values; see above.
+# Next six boolean values
 photon_bias = False
 custom_ergbins = False
 cumulative = False
 add_fmesh_card = True
+resample = True
+uni_resamp_all = False
 
 
 ###############################################################################
@@ -217,11 +224,18 @@ flux flux_1     alara_fluxin  1.0    0     default
 # Specify the irradiation schedule using "schedule" and "pulsehistory"
 # Syntax is found in the ALARA user manual
 schedule    total
-    .85 y   flux_1  pulse    0  s
+    .85 y   flux_1  pulse_once    0  s
 end
 
-pulsehistory    pulse
-    5   .15 y
+# A pulse history is applied to each flux in the schedule. Pulse syntax is:
+#  pulsehistory    pulse_name
+#       num_pulses   delay_between_pulses
+#  end
+pulsehistory    pulse_once
+    1   0.0 y
+end
+pulsehistory    pulse_thrice_wait_some
+    3   0.1 y
 end
 
 # Specify desired ALARA output (e.g. constituant, specific activity).

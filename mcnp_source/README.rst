@@ -4,11 +4,7 @@ Custom MCNP source routine information
 
 The R2S-ACT workflow uses a custom photon sampling source routine in MCNP in order to sample particles on the mesh.
 
-<<<<<<< HEAD
 This folder contains a modified version(s) of the ``source.F90`` file, and a link to the custom-compiled DAG-MCNP executable that uses this custom ``source.F90`` file (link is only applicable for user in *cnergg* group on Wisconsin's CAE; see section *CNERG custom executables*).
-=======
-As of Oct. 30, 2012, the most up to date/capable *source.F90* replacement is ``source_gamma_refactor.F90``.
->>>>>>> WIP updates to source.F90 readme.
 
 As of Nov. 27, 2012, the most up to date/capable ``source.F90`` replacement is ``source_gamma.F90``.
 
@@ -28,18 +24,11 @@ From KIT (Germany); Details specified in ``vendor/Leichtle_R2Smesh_Source_201110
 
 From CCFE (UK):
 
-<<<<<<< HEAD
 :``vendor/mcr2s_source.F90``: ...
-=======
-Custom-compiled dag-mcnp/mcnp5 executable links:
-
-:``mcnp5p_voxel``: compiled with ``source_gamma_voxel_alias.F90``
->>>>>>> WIP updates to source.F90 readme.
 
 Compiling
 ----------
 
-<<<<<<< HEAD
 In general, the user must copy or link the custom ``source.F90`` within the ``src`` directory for MCNP, and then build MCNP as usual.
 
 General compiling tips
@@ -54,14 +43,7 @@ On a CAE system, one should be able to use the mcnp5p links for running problems
 
 Alternately, to use one of these in a custom compile of MCNP/DAG-MCNP, one can check out the DAG-MCNP source, and then link the files in the repository to the ``DAG-MCNP/5.1.51/trunk/Source/src`` folder like this:
 
-``ln -s *path to mcnp_source folder*/source_gamma.F90 source.F90``
-=======
-On a CAE system, one should be able to use the mcnp5p links for running problems.
-
-Alternately, to use one of these in a custom compile of MCNP/DAG-MCNP, one can link the files in the repository to the ``DAG-MCNP/5.1.51/trunk/Source/src`` folder like this:
-
-``ln -s *path to this folder*/source_gamma_meshtal2.F90 source.F90``
->>>>>>> WIP updates to source.F90 readme.
+        ln -s *path to mcnp_source folder*/source_gamma.F90 source.F90
 
 (or you could copy the file to that folder, but it won't get updated when changes happen in the repository)
 
@@ -72,30 +54,15 @@ Since we are using some custom code, the .o files are in the way... use 'clean' 
 
 1:
 
-<<<<<<< HEAD
-``»» ../scripts/build_dagmc clean``
+        »» ../scripts/build_dagmc clean
 
-``«« error messages``
-
-2:
-=======
-```
->> ../scripts/build_dagmc clean
-<< error messages...
-```
+        «« error messages
 
 2:
 
-``
->> ../scripts/build_dagmc
-<< Success!
-<<<<<<< HEAD
-```
->>>>>>> WIP updates to source.F90 readme.
+        »» ../scripts/build_dagmc
 
-``»» ../scripts/build_dagmc``
-
-``«« Success!``
+        «« Success!
 
 You can now call the ``mcnp5`` executable that was created in ``Source/src``.
 
@@ -103,7 +70,7 @@ If you make further modifications to the same ``source.F90``, you can usually re
 
 You can make it easy to call my using an ``alias`` command in your ``.bashrc file``, e.g., for CNERG users:
 
-``alias mcnp5p='$HOME/DAG-MCNP/5.1.51/trunk/Source/src/mcnp5'``
+        alias mcnp5p='$HOME/DAG-MCNP/5.1.51/trunk/Source/src/mcnp5'
 
 CNERG custom executables
 ---------------------------
@@ -113,11 +80,6 @@ For those in CNERG, a custom DAG-MCNP/MCNP5 executable compiled with the custom 
 Custom-compiled dag-mcnp/mcnp5 executable links:
 
 :``mcnp5p``: compiled with ``source_gamma.F90``
-=======
-``
-
-You can now call the mcnp5 executable that was created in ``Source/src``.
->>>>>>> Benchmarking scripts/files for alias table generation.
 
 testing/
 ---------
